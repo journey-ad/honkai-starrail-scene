@@ -30,7 +30,7 @@ import {
 
 import Stats from "stats.js";
 
-let dpr = Math.max(1.5, Math.min(2.5, window.devicePixelRatio)), // 屏幕dpr
+let __DPR = Math.max(1.5, Math.min(2.5, window.devicePixelRatio)), // 屏幕dpr
   lm = undefined, // loader加载器实例？
   renderer = undefined, // renderer  w  3js渲染器？
   loadingStage = undefined, //x  加载舞台？
@@ -216,7 +216,7 @@ export default {
           canvas: this.$refs.webglCanvas,
         });
 
-        renderer.setPixelRatio(dpr);
+        renderer.setPixelRatio(__DPR);
         renderer.autoClear = false;
         renderer.setClearColor(0, 0);
       } catch (err) {
@@ -259,19 +259,19 @@ export default {
     },
     onResize() {
       if (renderer) {
-        var dpr = Math.min(1, window.devicePixelRatio),
-          w = dpr * (this.width || window.innerWidth),
-          h = dpr * (this.height || window.innerHeight);
+        const scaleFix = Math.min(1, window.devicePixelRatio),
+          w = scaleFix * (this.width || window.innerWidth),
+          h = scaleFix * (this.height || window.innerHeight);
 
         camera.aspect = w / h;
         camera.zoom = Math.max(1, w / h / (16 / 9));
         camera.updateProjectionMatrix();
 
         renderer.setSize(w, h);
-        loadingStage.setResolution(w * dpr, h * dpr);
-        target.setSize(w * dpr, h * dpr);
-        BG_BUFFER.setSize(w * dpr, h * dpr);
-        uniformSetting.resolution.value.set(w * dpr, h * dpr, dpr);
+        loadingStage.setResolution(w * __DPR, h * __DPR);
+        target.setSize(w * __DPR, h * __DPR);
+        BG_BUFFER.setSize(w * __DPR, h * __DPR);
+        uniformSetting.resolution.value.set(w * __DPR, h * __DPR, __DPR);
       }
     },
     render3D() {
@@ -337,5 +337,13 @@ export default {
 
   width: 100% !important;
   height: 100% !important;
+
+  canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 </style>

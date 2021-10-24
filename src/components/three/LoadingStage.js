@@ -1,14 +1,12 @@
 import * as THREE from 'three'
 
-let materialo, cameraa, scenes, meshu
-
 class LoadingStage {
   constructor(renderer, target) {
     this.progress = {
       value: 0
     }
 
-    materialo = new THREE.ShaderMaterial({
+    const material = new THREE.ShaderMaterial({
       vertexShader: require('@/assets/shader/LOADING.vert'),
       fragmentShader: require('@/assets/shader/LOADING.frag'),
       uniforms: {
@@ -30,22 +28,21 @@ class LoadingStage {
         },
         progress: this.progress
       }
-    })
+    }),
+      camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1),
+      scene = new THREE.Scene(),
+      meshu = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 2), material);
 
-    cameraa = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
-    scenes = new THREE.Scene
-    meshu = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 2), materialo);
+    scene.add(meshu)
+    scene.autoUpdate = false
 
-    scenes.add(meshu)
-    scenes.autoUpdate = false
-  }
+    this.setResolution = function (x, y) {
+      material.uniforms.resolution.value.set(x, y)
+    }
 
-  setResolution(x, y) {
-    materialo.uniforms.resolution.value.set(x, y)
-  }
-
-  render(t, n) {
-    // e.render(scenes, cameraa, t, n)
+    this.render = function (target, clear) {
+      renderer.render(scene, camera, target, clear)
+    }
   }
 }
 
