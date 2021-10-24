@@ -1,5 +1,5 @@
 {
-  "name": "test3",
+  "name": "honkai-starrail-scene",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,13 +8,18 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "gsap": "^3.8.0",
+    "stats.js": "^0.17.0",
+    "three": "0.100.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "image-downloader": "^4.0.3",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
+    "raw-loader": "^4.0.2",
     "vue-template-compiler": "^2.6.11"
   }
 }

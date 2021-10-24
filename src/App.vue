@@ -1,28 +1,55 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <reservation-effect
+      :width="viewportSize.width"
+      :height="viewportSize.height"
+    ></reservation-effect>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from "./components/HelloWorld.vue";
+import reservationEffect from "./components/main.vue";
 
 export default {
-  name: 'App',
+  name: "App",
+  data() {
+    return {
+      viewportSize: {
+        width: undefined,
+        height: undefined,
+      },
+    };
+  },
+  methods: {
+    onResize() {
+      this.viewportSize.height = window.innerHeight;
+      this.viewportSize.width = window.innerWidth;
+    },
+  },
+  created() {
+    window.addEventListener("resize", this.onResize);
+    this.onResize();
+  },
   components: {
-    HelloWorld
-  }
-}
+    HelloWorld,
+    reservationEffect,
+  },
+};
 </script>
 
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+html,
+body {
+  background-color: #000;
+  margin: 0;
+  padding: 0;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  height: 100%;
+  overflow: hidden !important;
 }
 </style>
