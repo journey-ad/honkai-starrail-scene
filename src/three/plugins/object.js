@@ -13,12 +13,12 @@ class OP100 {
     return null
   }
 
-  create(size) {
+  create(num) {
     let geometry = (new THREE.InstancedBufferGeometry).copy(new THREE.PlaneBufferGeometry(15, 15)),
-      offsetArr = new Float32Array(2 * size),
-      rndArr = new Float32Array(3 * size)
+      offsetArr = new Float32Array(2 * num),
+      rndArr = new Float32Array(3 * num)
 
-    for (let i = 0; i < size; i++) {
+    for (let i = 0; i < num; i++) {
       offsetArr[2 * i] = Math.random() - .5
       offsetArr[2 * i + 1] = Math.random() - .5
       rndArr[3 * i] = .05 * Math.random() + .01
@@ -32,7 +32,7 @@ class OP100 {
 }
 
 class OP101 {
-  process(scene, material) {
+  static process(scene, material) {
     if (scene.type === 101) {
       let geometry = new THREE.BufferGeometry, posArr = new Float32Array(3000)
       for (let i = 0; i < 1000; i++) {
@@ -43,12 +43,13 @@ class OP101 {
       geometry.addAttribute("position", new THREE.BufferAttribute(posArr, 3))
       return new THREE.Points(geometry, material)
     }
+
     return null
   }
 }
 
 class OP102 {
-  process(scene, material) {
+  static process(scene, material) {
     if (scene.type === 102) {
       const geometry = this.create(scene.back ? 50 : 300);
       return new THREE.Mesh(geometry, material)
@@ -57,14 +58,14 @@ class OP102 {
     return null
   }
 
-  create(size) {
+  static create(num) {
     let geometry = (new THREE.InstancedBufferGeometry).copy(new THREE.PlaneBufferGeometry(17, 17)),
-      startArr = new Float32Array(3 * size),
-      ctrlArr = new Float32Array(3 * size),
-      endArr = new Float32Array(3 * size),
-      rndArr = new Float32Array(3 * size)
+      startArr = new Float32Array(3 * num),
+      ctrlArr = new Float32Array(3 * num),
+      endArr = new Float32Array(3 * num),
+      rndArr = new Float32Array(3 * num)
 
-    for (let i = 0; i < size; i++) {
+    for (let i = 0; i < num; i++) {
       startArr[3 * i] = 5 * (2 * Math.random() - 1) + 50
       startArr[3 * i + 1] = 15 * (2 * Math.random() - 1) + 25
       startArr[3 * i + 2] = 30 * (2 * Math.random() - 1)
@@ -91,7 +92,7 @@ class OP102 {
 }
 
 class OP200 {
-  process(scene, material) {
+  static process(scene, material) {
     if (scene.type === 200) {
       const geometry = this.create(500, scene.dir),
         mesh = new THREE.Mesh(geometry, material);
@@ -113,16 +114,17 @@ class OP200 {
 
       return mesh
     }
+
     return null
   }
 
-  create(size, dir) {
+  static create(num, dir) {
     let geometry = (new THREE.InstancedBufferGeometry).copy(new THREE.PlaneBufferGeometry(10, 10)),
-      startArr = new Float32Array(3 * size),
-      endArr = (new Float32Array(3 * size), new Float32Array(3 * size)),
-      rndArr = new Float32Array(3 * size)
+      startArr = new Float32Array(3 * num),
+      endArr = (new Float32Array(3 * num), new Float32Array(3 * num)),
+      rndArr = new Float32Array(3 * num)
 
-    for (let i = 0; i < size; i++) {
+    for (let i = 0; i < num; i++) {
       startArr[3 * i] = 100 * Math.random() - 50
       startArr[3 * i + 1] = 50 * Math.random() - 25
       startArr[3 * i + 2] = 50 * Math.random() - 25

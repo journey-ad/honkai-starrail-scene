@@ -1,6 +1,5 @@
 import { EventDispatcher } from "three";
-import Loader from './loader';
-
+import { Loader } from './loader.js';
 
 class LoadItem {
   constructor(item) {

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import shaderSetting from "@/config/shaderSetting";
+import shaderSetting from "@/config/shaderSetting.js";
 
 const shader = shaderSetting.BASIC.clone()
 
@@ -16,10 +16,10 @@ scene.add(mesh)
 scene.autoUpdate = false
 
 class BlendRender {
-  static render(renderer, iii, ooo, visible = true) {
-    shader.uniforms.diffuse.value = iii.texture
-    renderer.render(scene, camera, ooo, visible)
+  static render(renderer, target, buffer, visible = true) {
+    shader.uniforms.diffuse.value = target.texture
+    renderer.render(scene, camera, buffer, visible)
   }
 }
 
-export default BlendRender
+export { BlendRender }

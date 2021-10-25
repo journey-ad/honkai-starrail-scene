@@ -2,8 +2,8 @@ import * as THREE from 'three'
 import * as gsap from 'gsap/all'
 import uniformSetting from "@/config/uniformSetting";
 
-import Point from '@/components/three/Point'
-import BlendRender from '@/components/three/BlendRender'
+import { Point } from '@/three/Point'
+import { BlendRender } from '@/three/BlendRender'
 
 const animationSetting = {
   onLoadingInit() {

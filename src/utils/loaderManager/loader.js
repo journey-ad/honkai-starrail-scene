@@ -154,10 +154,9 @@ class Loader {
       onprogress = function () { },
       onload = function () { },
       onerror = function () { },
-    } = options
+    } = options || {}
 
     this.list = list
-
     this.minTime = minTime
     this.onprogress = onprogress
     this.onload = onload
@@ -251,4 +250,4 @@ class Loader {
   }
 }
 
-export default Loader
+export { Loader }

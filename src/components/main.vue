@@ -11,22 +11,15 @@ import * as gsap from "gsap/all";
 import animationSetting from "@/config/animationSetting";
 import shaderSetting from "@/config/shaderSetting";
 import uniformSetting from "@/config/uniformSetting";
-import MANIFEST from "@/assets/MANIFEST";
-// console.log(MANIFEST)
+import sceneSetting from "@/config/sceneSetting.json";
 
-import SCENE from "@/config/scene.json";
+import MANIFEST from "@/assets/MANIFEST.js";
 
-import LoadingStage from "@/components/three/LoadingStage";
-import MainStage from "@/components/three/MainStage";
+import { LoadingStage, MainStage } from "@/three/Stage.js";
 
-import LoaderManager from "@/components/loader";
+import { LoaderManager } from "@/utils/loaderManager";
 
-import {
-  OP100,
-  OP101,
-  OP102,
-  OP200,
-} from "@/components/loader/plugins/objectPlugins";
+import { OP100, OP101, OP102, OP200 } from "@/three/plugins/object.js";
 
 import Stats from "stats.js";
 
@@ -69,10 +62,11 @@ export default {
     fileLoader.removeEventListener("loadProgress", this.onLoadProgress);
     fileLoader.removeEventListener("error", this.onLoadError);
     fileLoader.removeEventListener("complete", this.onLoadComplete);
+    // fileLoader.removeAll();
     try {
       renderer && renderer.forceContextLoss();
-    } catch (t) {
-      console.log(t);
+    } catch (err) {
+      console.log(err);
     }
   },
   props: {
@@ -98,7 +92,7 @@ export default {
     },
     loadingLogo: {
       type: String,
-      default: require("@/assets/images/loadingLogo.png"),
+      default: require("@/assets/textures/loadingLogo.png"),
     },
     y: {
       type: Number,
@@ -138,19 +132,17 @@ export default {
     return {
       needResize: false,
       isWebGLSupport: true,
-      indexBG: require("@/assets/images/indexStatic.jpg"),
-      innerBG: require("@/assets/images/innerStatic.jpg"),
+      indexBG: require("@/assets/textures/indexStatic.jpg"),
+      innerBG: require("@/assets/textures/innerStatic.jpg"),
     };
   },
   methods: {
     addLoadListeners() {
-      // A = this.loader
       fileLoader.addEventListener("progress", this.onLoadProgress);
       fileLoader.addEventListener("error", this.onLoadError);
       fileLoader.addEventListener("complete", this.onLoadComplete);
     },
     clearLoadListeners() {
-      // A = this.loader
       fileLoader.removeEventListener("progress", this.onLoadProgress);
       fileLoader.removeEventListener("error", this.onLoadError);
       fileLoader.removeEventListener("complete", this.onLoadComplete);
@@ -173,8 +165,8 @@ export default {
     },
     onPrepareComplete(evt) {
       this.clearLoadListeners();
-      this.prepareMainManifest();
       this.initRenderPlayer();
+      this.prepareMainManifest();
       evt && this.buildLoading();
       this.onResize();
       this.render3D();
@@ -194,20 +186,17 @@ export default {
     prepareMainManifest() {
       this.clearLoadListeners();
       this.addLoadListeners();
-      // A = this.loader
       fileLoader.loadManifest(MANIFEST.INDEX_MANIFEST);
     },
     build3D() {
-      // _ = loader  M = scene
-      lm.initObject(SCENE.sceneIndexPC, sceneIndex, sceneIndex);
+      lm.initObject(sceneSetting.sceneIndexPC, sceneIndex, sceneIndex);
       this.isPC || sceneIndex.resize();
       sceneIndex.change(this.type, this.y, 0);
       sceneIndex.scroll(this.y);
       lm.compile(sceneIndex, camera, target);
     },
     buildLoading() {
-      // E = scene
-      lm.initObject(SCENE.sceneLoading, sceneLoading, sceneLoading);
+      lm.initObject(sceneSetting.sceneLoading, sceneLoading, sceneLoading);
       sceneLoading.intro();
     },
     initRenderPlayer() {
@@ -220,6 +209,7 @@ export default {
         renderer.autoClear = false;
         renderer.setClearColor(0, 0);
       } catch (err) {
+        console.log(err);
         this.isWebGLSupport = false;
         return;
       }
@@ -233,11 +223,11 @@ export default {
       });
 
       lm.objectPlugins.push(new OP100(this.isPC));
-      lm.objectPlugins.push(new OP101());
-      lm.objectPlugins.push(new OP102());
-      lm.objectPlugins.push(new OP200());
+      lm.objectPlugins.push(OP101);
+      lm.objectPlugins.push(OP102);
+      lm.objectPlugins.push(OP200);
       loadingStage = new LoadingStage(renderer, target);
-      lm.initGeometry(SCENE.geometry);
+      lm.initGeometry(sceneSetting.geometry);
       lm.initBuffer("BG_BUFFER", BG_BUFFER);
       sceneLoading = new THREE.Scene();
 
@@ -252,7 +242,6 @@ export default {
       this.isPC && window.addEventListener("mousemove", this.onMouseMove);
     },
     onMouseMove(evt) {
-      // M = scene
       if (sceneIndex && sceneIndex.move) {
         sceneIndex.move(evt.clientX / this.width, evt.clientY / this.height);
       }

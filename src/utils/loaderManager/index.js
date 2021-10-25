@@ -1,11 +1,8 @@
 import * as THREE from 'three'
 import * as gsap from 'gsap/all'
 
-import geometryPlugin1 from './plugins/geometryPlugin1'
-import geometryPlugin2 from './plugins/geometryPlugin2'
-import FileLoader from './fileLoader';
-
-console.log(FileLoader)
+import { geometryPlugin1, geometryPlugin2 } from '@/three/plugins/geometry.js'
+import FileLoader from './fileLoader.js';
 
 const loader = FileLoader.loader
 const createLoader = FileLoader.createLoader
@@ -999,4 +996,4 @@ class LoaderManager {
   }
 }
 
-export default LoaderManager
+export { LoaderManager }

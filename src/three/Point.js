@@ -45,8 +45,8 @@ class Point {
       material
     } = option || {}
 
-    if (this.length > 10) {
-      obj3D = this.splice(Math.floor(Math.random() * t.pool.length), 1)[0]
+    if (Point.pool.length > 10) {
+      obj3D = this.splice(Math.floor(Math.random() * Point.pool.length), 1)[0]
       material = obj3D.children[0].material;
     } else {
       obj3D = new THREE.Object3D;
@@ -91,23 +91,28 @@ class Point {
 
     obj3D.visible = true
     obj3D.rotation.z = 6.28 * Math.random()
-    material.uniforms.seed.value = Math.random();
+    material.uniforms.seed.value = Math.random()
 
     for (let i = 0; i <= material.defines.SEGMENT; i++) {
-      material.uniforms.points.value[i].copy(this.randomPoint(i / material.defines.SEGMENT - .5, 100));
+      material.uniforms.points.value[i].copy(this.randomPoint(i / material.defines.SEGMENT - .5, 100))
 
-      const point = this.randomPoint(i / material.defines.SEGMENT - .5, 100);
-      gsap.TweenMax.to(material.uniforms.points.value[i], duration,
+      const point = this.randomPoint(i / material.defines.SEGMENT - .5, 100)
+      gsap.TweenMax.to(
+        material.uniforms.points.value[i],
+        duration,
         {
           overwrite: true,
           ease: gsap.Linear.easeNone,
           x: point.x,
           y: point.y,
           z: point.z
-        })
+        }
+      )
     }
 
-    gsap.TweenMax.fromTo(material.uniforms.opacity, duration,
+    gsap.TweenMax.fromTo(
+      material.uniforms.opacity,
+      duration,
       {
         value: 0
       },
@@ -115,9 +120,12 @@ class Point {
         overwrite: true,
         ease: gsap.Linear.easeNone,
         value: 1
-      })
+      }
+    )
 
-    gsap.TweenMax.fromTo(obj3D.position, duration,
+    gsap.TweenMax.fromTo(
+      obj3D.position,
+      duration,
       {
         x: position.x,
         y: position.y,
@@ -132,7 +140,8 @@ class Point {
           this.pool.push(obj3D)
           obj3D.visible = false
         }
-      })
+      }
+    )
 
     return obj3D
   }
@@ -140,4 +149,4 @@ class Point {
 
 Point.pool = []
 
-export default Point
+export { Point }

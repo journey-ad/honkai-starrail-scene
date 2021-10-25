@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
 import reservationEffect from "./components/main.vue";
 
 export default {
@@ -32,7 +31,6 @@ export default {
     this.onResize();
   },
   components: {
-    HelloWorld,
     reservationEffect,
   },
 };
