@@ -11,10 +11,14 @@
 - GSAP
 - GLSL
 
-## 原项目
-https://webstatic.mihoyo.com/rpg/event/e20211008reserve/index.html
+## 关于注释
+代码中包含的注释是我个人理解，初学生疏错漏难免，请勿将其当作正确的概念，若你认为我的理解有误欢迎开 issue 进行讨论
 
 ## 免责声明
+
+### 原项目
+https://webstatic.mihoyo.com/rpg/event/e20211008reserve/index.html
+
 本项目仅为学习 Three.js 和 GLSL 编程所用，部分代码来源于原始项目压缩混淆后的代码，为了方便学习转为人类易于理解的形式
 
 项目中包含的渲染流程/动画配置和场景/材质/贴图/Shader等资产版权为米哈游公司所有，不得出于商业目的或提供付费支持服务而复制或传播上述内容的任何部分，由此造成的一切后果本代码仓库建立者概不负责
