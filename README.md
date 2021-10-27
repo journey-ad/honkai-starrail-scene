@@ -3,7 +3,7 @@
 ![preview](preview.jpg)
 
 # honkai-starrail-scene
-崩坏：星穹铁道 预约页场景提取 [Demo](https://lab.getloli.com/honkai-starrail-scene/)
+崩坏：星穹铁道 预约页场景提取 [Demo](https://lab.getloli.com/honkai-starrail-scene/?debug=1)
 
 ## 技术栈
 - Vue.js

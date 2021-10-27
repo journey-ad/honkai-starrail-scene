@@ -43,9 +43,13 @@ const BG_BUFFER = new THREE.WebGLRenderTarget(1, 1, {
   format: THREE.RGBFormat,
 });
 
-const stats = new Stats();
-stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild(stats.domElement);
+const DEBUG = location.search.indexOf("debug=1") > -1;
+let stats = null;
+if (DEBUG) {
+  stats = new Stats();
+  stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+  document.body.appendChild(stats.dom);
+}
 
 export default {
   name: "reservationEffect",
@@ -264,7 +268,7 @@ export default {
       }
     },
     render3D() {
-      stats.begin();
+      stats && stats.begin();
 
       if (this.needResize) {
         this.onResize();
@@ -310,7 +314,7 @@ export default {
           renderer.render(sceneLoading, camera, null, !sceneIndex.visible);
       }
 
-      stats.end();
+      stats && stats.end();
 
       this.renderRequestID = window.requestAnimationFrame(this.render3D);
     },
