@@ -1,3 +1,10 @@
+
+/**
+ * @file 动画相关配置
+ * 定义了加载、页面状态切换和场景物体触发等事件需要播放的动画和提供的播放方法
+ * 结合使用TweenMax和threejs实现
+ */
+
 import * as THREE from 'three'
 import * as gsap from 'gsap/all'
 import uniformSetting from "@/config/uniformSetting";

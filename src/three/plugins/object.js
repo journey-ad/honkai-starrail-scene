@@ -1,3 +1,7 @@
+/**
+ * @file 自定义物体类型处理插件
+ */
+
 import * as THREE from 'three'
 
 class OP100 {

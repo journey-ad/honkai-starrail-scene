@@ -14,6 +14,7 @@ export default {
   name: "App",
   data() {
     return {
+      // 视口尺寸
       viewportSize: {
         width: undefined,
         height: undefined,
@@ -27,6 +28,7 @@ export default {
     },
   },
   created() {
+    // 页面打开时监听resize事件并设置视口尺寸
     window.addEventListener("resize", this.onResize);
     this.onResize();
   },

@@ -1,3 +1,8 @@
+/**
+ * @file 资源加载清单
+ * 根据场景和类型做了分类，可加载的包括材质图、spine动画(本demo未用到)等
+ */
+
 export default {
   LOADING_MANIFEST: [
     {

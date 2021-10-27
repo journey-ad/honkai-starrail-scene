@@ -1,3 +1,10 @@
+
+/**
+ * @file 着色器材质配置
+ * 配置了使用自定义shader渲染的材质列表
+ * docs: https://threejs.org/docs/#api/zh/materials/ShaderMaterial
+ */
+
 import * as THREE from 'three'
 
 const conf = {

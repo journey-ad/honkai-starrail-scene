@@ -1,3 +1,8 @@
+/**
+ * @file 加载舞台和主舞台类
+ * 包含了舞台的初始化、摄影机设置、渲染方法等
+ */
+
 import * as THREE from 'three'
 import shaderSetting from "@/config/shaderSetting";
 
@@ -56,9 +61,9 @@ class LoadingStage {
     }),
       camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1),
       scene = new THREE.Scene(),
-      meshu = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 2), material);
+      mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 2), material);
 
-    scene.add(meshu)
+    scene.add(mesh)
     scene.autoUpdate = false
 
     this.setResolution = function (x, y) {

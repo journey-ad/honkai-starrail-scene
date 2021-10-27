@@ -1,3 +1,8 @@
+/**
+ * @file 加载管理器
+ * 负责整个渲染流程的管理，包括资源加载、几何体初始化、事件派发、动画管理、全局状态更新等
+ */
+
 import * as THREE from 'three'
 import * as gsap from 'gsap/all'
 
