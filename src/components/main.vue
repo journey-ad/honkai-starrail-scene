@@ -159,7 +159,7 @@ export default {
       sceneIndex && sceneIndex.change && sceneIndex.change(this.type, this.y);
     },
 
-    // 宽高发生变化时需要重设渲染参数
+    // 宽高发生变化后标记需要resize
     width() {
       this.needResize = true;
     },
@@ -182,7 +182,7 @@ export default {
     },
   },
   computed: {
-    // 海外版包含内页，猜测为海外版需要区分背景图
+    // 原始项目海外版包含内页，猜测为海外版需要区分背景图
     staticBG() {
       return "index" === this.type ? this.indexBG : this.innerBG;
     },
@@ -226,7 +226,7 @@ export default {
     // main场景资源加载完成
     onLoadComplete() {
       console.log(6, "onLoadComplete", "main场景资源加载完成");
-      this.clearLoadListeners(); // 加载完成后清除事件监听
+      this.clearLoadListeners(); // 加载完成后移除事件监听
       this.build3D(); // 构建场景
       this.$emit("loadComplete");
       this.loaded = true; // 标记文件加载完成
@@ -345,7 +345,7 @@ export default {
     },
     // 鼠标移动处理
     onMouseMove(evt) {
-      // 可行时根据鼠标相对于窗口尺寸的比例计算视角偏移 实现视差效果
+      // 根据鼠标相对于窗口尺寸的比例计算视角偏移 实现视差效果
       if (sceneIndex && sceneIndex.move) {
         sceneIndex.move(evt.clientX / this.width, evt.clientY / this.height);
       }
@@ -364,7 +364,7 @@ export default {
 
         renderer.setSize(w, h); // 设置渲染器尺寸
         loadingStage.setResolution(w * __DPR, h * __DPR); // 设置loading舞台尺寸
-        target.setSize(w * __DPR, h * __DPR); // 设置目标渲染器尺寸
+        target.setSize(w * __DPR, h * __DPR); // 设置缓冲尺寸
         BG_BUFFER.setSize(w * __DPR, h * __DPR); // 设置背景缓冲尺寸
         uniformSetting.resolution.value.set(w * __DPR, h * __DPR, __DPR); // 设置全局变量里的分辨率
       }
@@ -373,13 +373,13 @@ export default {
     render3D() {
       stats && stats.begin(); // 开始记录性能数据
 
-      // 需要重设尺寸时进行相应操作;
+      // 需要重设尺寸时进行相应操作
       if (this.needResize) {
         this.onResize();
         this.needResize = false;
       }
 
-      lm.tick(); // 执行tick
+      lm.tick(); // 执行加载管理器的tick 更新帧生成时间 fps 程序运行时间
 
       if (this.display) {
         // 未开始播放时根据当前实例的进度设置进度变量
@@ -394,15 +394,14 @@ export default {
           this.loaded &&
           !this.played
         ) {
-          // 设置播放状态为true
-          this.played = true;
+          this.played = true; // 设置播放状态为true
           sceneLoading.outro(); // loading场景出场
-          // main场景进场 完成回调里回报加载完成
+          // main场景进场 回调中回报加载完成
           sceneIndex.intro(() => {
             this.$emit("introComplete");
           });
 
-          // 延迟0.3s 在1.5s内设置loadingStage.progress为1.2
+          // 延迟0.3s，在1.5s内设置loadingStage.progress为1.2 进入正常渲染循环
           gsap.TweenMax.to(loadingStage.progress, 1.5, {
             value: 1.2,
             delay: 0.3,
@@ -434,7 +433,7 @@ export default {
 
       stats && stats.end(); // 结束记录性能数据
 
-      // 重新请求帧执行，完成帧循环
+      // 重新请求帧执行，完成一次帧循环
       this.renderRequestID = window.requestAnimationFrame(this.render3D);
     },
   },

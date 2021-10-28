@@ -9,7 +9,11 @@ import * as THREE from 'three'
 import * as gsap from 'gsap/all'
 import uniformSetting from "@/config/uniformSetting";
 
-import { Point } from '@/three/Point'
+/**
+ * 星座特效
+ * 用于显示内页背景上的星座特效: 漂浮闪烁的线段和端点
+ */
+import { Constellation } from '@/three/Constellation'
 import { BlendRender } from '@/three/BlendRender'
 
 const animationSetting = {
@@ -207,12 +211,12 @@ const animationSetting = {
       }
     }
   },
-  onInnerLineInit: function (t, evt) {
+  onInnerLineInit: function (object, lm) {
     this.frame = 0
     this.count = 0
     this.onBeforeRender = () => {
       if (this.frame++ % 250 == 0) {
-        const item = Point.emit(evt, {
+        const item = Constellation.emit(lm, {
           duration: 5 * Math.random() + 15,
           position: new THREE.Vector3(1200 * Math.random() - 650, -50 * Math.random() - 200, 0)
         });

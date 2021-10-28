@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script>
+    const width = 600,
+      height = 600,
+      margin = 20
+
+    const graph = d3.select('body')
+      .append('svg')
+      .classed('axis', true)
+      .attr('width', width)
+      .attr('height', height)
+
+    const xScale = d3.scaleLinear()
+      .domain([100, -100])
+      .range([width - 2 * margin, 0])
+
+    const yScale = d3.scaleLinear()
+      .domain([100, -100])
+      .range([0, height - 2 * margin])
+
+    function renderXAxis() {
+      const axisLength = width - 2 * margin
+
+      const xAxis = d3.axisBottom()
+        .scale(xScale)
+
+      graph.append('g')
+        .classed('x-axis', true)
+        .attr('transform', function () {
+          return `translate(${margin}, ${height * .5})`
+        })
+        .call(xAxis)
+
+      d3.selectAll('g.x-axis g.tick')
+        .append('line')
+        .classed('grid-line', true)
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', 0)
+        .attr('y2', -(height - 2 * margin))
+    }
+
+    function renderYAxis() {
+      const axisLength = height - 2 * margin
+
+      const yAxis = d3.axisLeft()
+        .scale(yScale)
+
+      graph.append('g')
+        .classed('y-axis', true)
+        .attr('transform', function () {
+          return `translate(${width * .5}, ${margin})`
+        })
+        .call(yAxis)
+
+      d3.selectAll('g.y-axis g.tick')
+        .append('line')
+        .classed('grid-line', true)
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', width - 2 * margin)
+        .attr('y2', 0)
+    }
+
+    renderXAxis()
+    renderYAxis()
+
+    const data = []
+
+    const randomPos = (step, val = 200) => {
+      return Array(
+        (step * val) + (Math.random() * val / 2), // x轴随机位置
+        (Math.random() * val) - (val / 2), // y轴随机位置 [-val/2, val/2)
+        (Math.random() * val / 2) - (val / 4) // z轴随机位置 [-val/4, val/4)
+      )
+    }
+    const SIZE = 4
+    const colors = ['red', 'green', 'blue', 'yellow', 'purple', 'pink', 'black']
+    for (let i = 0; i < SIZE; i++) {
+      const step = i / SIZE - .5
+      console.log(step);
+
+    for (let index = 0; index < 1000; index++) {
+      const arr = randomPos(step, 100)
+      data.push({
+        color: colors[i % colors.length],
+        pos: [arr[0], arr[1]]
+      })
+    }
+
+    }
+
+    graph.selectAll("circle")
+      .data(data).enter()
+      .append("circle")
+      .attr("fill", function (d) {
+        return d.color
+      })
+      .attr("cx", function (d) {
+        return xScale(d.pos[0] + 7.25)
+      })
+      .attr("cy", function (d) {
+        return yScale(d.pos[1] - 7.25)
+      })
+      .attr("r", 3)
+
+  </script>
+</body>
+
+</html>

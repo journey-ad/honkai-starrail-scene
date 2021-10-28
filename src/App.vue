@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <reservation-effect
+      :type="type"
       :width="viewportSize.width"
       :height="viewportSize.height"
     ></reservation-effect>
@@ -14,6 +15,7 @@ export default {
   name: "App",
   data() {
     return {
+      // type: "inner",
       // 视口尺寸
       viewportSize: {
         width: undefined,
