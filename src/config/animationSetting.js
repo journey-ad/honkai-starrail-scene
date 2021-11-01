@@ -14,6 +14,10 @@ import uniformSetting from "@/config/uniformSetting";
  * 用于显示内页背景上的星座特效: 漂浮闪烁的线段和端点
  */
 import { Constellation } from '@/three/Constellation'
+/**
+ * 混合光影效果
+ * 用于混合渲染光影效果：背景的彩虹太阳光、列车的车灯和bloom效果等
+ */
 import { BlendRender } from '@/three/BlendRender'
 
 const animationSetting = {
@@ -92,11 +96,22 @@ const animationSetting = {
       })
     }
   },
+
+  /**
+   * 光影效果动画
+   * @param {THREE.WebGLRenderer} renderer 渲染器实例
+   */
   onBlendRender(renderer) {
-    const target = renderer.getRenderTarget();
-    BlendRender.render(renderer, target, this.scene.bgBuffer)
-    renderer.setRenderTarget(target)
+    // 从光影场景中取到渲染缓冲区
+    const diffuseTarget = renderer.getRenderTarget();
+
+    // 使用混合渲染器渲染光影效果到bg_buffer上
+    BlendRender.render(renderer, diffuseTarget, this.scene.bgBuffer)
+
+    // 激活渲染缓冲区
+    renderer.setRenderTarget(diffuseTarget)
   },
+
   onRockRotate() {
     this.rotation.y = .05 * uniformSetting.time.value * this.userData.speed + this.userData.delay
     this.position.x = this.userData.initPos.x + Math.sin(.5 * uniformSetting.time.value * this.userData.speed + this.userData.delay) * this.userData.range * 15

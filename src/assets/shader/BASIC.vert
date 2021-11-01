@@ -6,7 +6,7 @@
   attribute vec3 offset;
   attribute vec3 scale;
 #endif
-#include <skinning_pars_vertex>
+#include <skinning_pars_vertex> // 包含蒙皮动画所需要的定义
 
 #ifdef USE_MORPH
   attribute vec3 morphTarget0;
@@ -25,10 +25,10 @@ void main(){
       vec3 scaledPosition = position*scale;
       vec3 transformed = (scaledPosition + 2.0 * cross(rotation.xyz, cross(rotation.xyz, scaledPosition) + rotation.w * scaledPosition))+offset;
     #else
-      #include <beginnormal_vertex>
-      #include <skinbase_vertex>
-      #include <skinnormal_vertex>
-      #include <defaultnormal_vertex>
+      #include <beginnormal_vertex> // 开始法线处理
+      #include <skinbase_vertex> // 骨骼蒙皮基本运算
+      #include <skinnormal_vertex> // 骨骼蒙皮法线运算
+      #include <defaultnormal_vertex> // 默认法线处理
 
       #include <begin_vertex>
       
@@ -38,7 +38,7 @@ void main(){
         transformed += ( morphTarget2 - position ) * morphTargetInfluences[ 2 ];
         transformed += ( morphTarget3 - position ) * morphTargetInfluences[ 3 ];
       #endif
-      #include <skinning_vertex>
+      #include <skinning_vertex> // 蒙皮顶点处理
     #endif
-    #include <project_vertex>
+    #include <project_vertex> // 投影顶点运算
 }

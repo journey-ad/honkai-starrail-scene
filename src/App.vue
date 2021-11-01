@@ -15,7 +15,7 @@ export default {
   name: "App",
   data() {
     return {
-      // type: "inner",
+      type: "index",
       // 视口尺寸
       viewportSize: {
         width: undefined,
