@@ -1,10 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" @scroll="handleScroll">
     <reservation-effect
-      :type="type"
+      :type="effectType"
       :width="viewportSize.width"
       :height="viewportSize.height"
+      :y="scrollV"
     ></reservation-effect>
+    <div class="content"></div>
   </div>
 </template>
 
@@ -15,7 +17,8 @@ export default {
   name: "App",
   data() {
     return {
-      type: "index",
+      effectType: "index",
+      scrollV: 0,
       // 视口尺寸
       viewportSize: {
         width: undefined,
@@ -27,6 +30,17 @@ export default {
     onResize() {
       this.viewportSize.height = window.innerHeight;
       this.viewportSize.width = window.innerWidth;
+    },
+    handleScroll(evt) {
+      const { scrollTop = 0 } = evt.target;
+      if (scrollTop >= 0) {
+        if (scrollTop > 0.75 * this.viewportSize.height) {
+          this.effectType = "inner";
+        } else {
+          this.effectType = "index";
+          this.scrollV = parseInt("-" + scrollTop, 10);
+        }
+      }
     },
   },
   created() {
@@ -53,5 +67,21 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden !important;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+}
+
+.content {
+  position: relative;
+  height: 200vh;
+  z-index: 10;
 }
 </style>
